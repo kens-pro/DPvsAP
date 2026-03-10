@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -7,29 +8,41 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700&display=swap');
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html, body {
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             font-family: 'Noto Sans JP', sans-serif;
             background-color: #f3f4f6;
-            margin: 0;
-            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
+            color: #111827;
         }
+
         #slides {
             width: 100%;
             display: flex;
             justify-content: center;
-            align-items: center;
+            align-items: stretch;
             padding: 20px;
             flex-grow: 1;
         }
+
         .slide-container {
             width: 100%;
             max-width: 900px;
             aspect-ratio: 16 / 9;
-            max-height: calc(100vh - 120px); 
+            max-height: calc(100vh - 120px);
+            min-height: 520px;
             background: white;
             box-shadow: 0 10px 25px rgba(0,0,0,0.1);
             padding: 2.5rem;
@@ -39,10 +52,14 @@
             border-radius: 8px;
             position: relative;
             overflow-y: auto;
+            overflow-x: hidden;
+            -webkit-overflow-scrolling: touch;
         }
+
         .slide-container.active {
             display: flex;
         }
+
         .slide-number {
             position: absolute;
             bottom: 15px;
@@ -50,12 +67,15 @@
             font-size: 0.75rem;
             color: #9ca3af;
         }
+
         .title-accent {
             width: 50px;
             height: 4px;
             background-color: #4b5563;
             margin-bottom: 1rem;
+            flex-shrink: 0;
         }
+
         .controls {
             position: sticky;
             bottom: 15px;
@@ -69,6 +89,7 @@
             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             margin-bottom: 15px;
         }
+
         .nav-btn {
             padding: 6px 14px;
             border-radius: 6px;
@@ -77,15 +98,20 @@
             font-weight: bold;
             font-size: 0.875rem;
             transition: all 0.2s;
+            border: none;
         }
+
         .nav-btn:hover {
             background-color: #374151;
             transform: translateY(-1px);
         }
+
         .nav-btn:disabled {
             background-color: #d1d5db;
             cursor: not-allowed;
+            transform: none;
         }
+
         .image-placeholder {
             background-color: #f8fafc;
             border: 2px dashed #e2e8f0;
@@ -97,24 +123,39 @@
             font-size: 0.875rem;
             margin: 1rem 0;
             min-height: 120px;
+            overflow: hidden;
         }
+
+        .image-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
         .comparison-table {
             width: 100%;
             border-collapse: collapse;
             font-size: 0.9rem;
         }
-        .comparison-table th, .comparison-table td {
+
+        .comparison-table th,
+        .comparison-table td {
             border: 1px solid #e5e7eb;
             padding: 8px;
             text-align: center;
+            vertical-align: middle;
         }
+
         .comparison-table th {
             background-color: #f9fafb;
         }
+
         .highlight {
             color: #1d4ed8;
             font-weight: bold;
         }
+
         .cta-button {
             display: inline-block;
             background: linear-gradient(to right, #2563eb, #1d4ed8);
@@ -127,16 +168,113 @@
             transition: all 0.3s;
             text-decoration: none;
         }
+
         .cta-button:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
         }
-        @media (max-height: 600px) {
+
+        @media (max-height: 700px) {
+            .slide-container {
+                padding: 1.5rem;
+            }
+
             h1 { font-size: 1.875rem !important; }
             h2 { font-size: 1.5rem !important; }
             h3 { font-size: 1.125rem !important; }
-            p, li { font-size: 0.875rem !important; }
+            h4 { font-size: 1rem !important; }
+            p, li, td, th, span { font-size: 0.9rem !important; }
             .image-placeholder { min-height: 80px; margin: 0.5rem 0; }
+            .cta-button { font-size: 1rem; padding: 0.85rem 1.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding-bottom: 86px;
+            }
+
+            #slides {
+                padding: 8px;
+                align-items: stretch;
+            }
+
+            .slide-container {
+                max-width: 100%;
+                aspect-ratio: auto;
+                max-height: none;
+                min-height: calc(100vh - 110px);
+                padding: 1rem 1rem 3.25rem;
+                border-radius: 14px;
+                box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+                justify-content: flex-start;
+            }
+
+            .slide-number {
+                bottom: 12px;
+                right: 14px;
+                font-size: 0.68rem;
+            }
+
+            .controls {
+                position: fixed;
+                left: 8px;
+                right: 8px;
+                bottom: 8px;
+                margin: 0;
+                width: auto;
+                justify-content: center;
+                padding: 10px 12px;
+                border-radius: 16px;
+            }
+
+            .nav-btn {
+                flex: 1 1 0;
+                max-width: none;
+                min-height: 44px;
+                font-size: 0.9rem;
+            }
+
+            .comparison-table-wrap {
+                width: 100%;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .comparison-table {
+                min-width: 540px;
+                font-size: 0.78rem;
+            }
+
+            .image-placeholder {
+                min-height: 100px;
+                margin: 0.5rem 0;
+            }
+
+            .cta-button {
+                width: 100%;
+                max-width: 340px;
+                font-size: 1rem;
+                padding: 0.95rem 1.25rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .slide-container {
+                padding: 0.9rem 0.9rem 3.1rem;
+            }
+
+            h1 { font-size: 1.7rem !important; line-height: 1.35 !important; }
+            h2 { font-size: 1.35rem !important; line-height: 1.35 !important; }
+            h3 { font-size: 1.05rem !important; line-height: 1.4 !important; }
+            h4 { font-size: 0.95rem !important; line-height: 1.4 !important; }
+
+            p, li {
+                line-height: 1.6 !important;
+            }
+
+            .image-placeholder {
+                min-height: 90px;
+            }
         }
     </style>
 </head>
@@ -146,9 +284,8 @@
         <!-- Slide 1 -->
         <div class="slide-container active" id="slide-1">
             <div class="text-center">
-                <div class="image-placeholder w-40 h-40 mx-auto rounded-full">
-                     <img src="images/DSCF0044.JPG" style="width:100%; height:100%; object-fit:cover; border-radius:20px;">
-  </div>
+                <div class="image-placeholder w-32 h-32 md:w-40 md:h-40 mx-auto rounded-full">
+                    <img src="images/DSCF0044.JPG" alt="ピアノの写真" style="border-radius: 9999px;">
                 </div>
                 <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4 leading-tight">子どものピアノ、電子ピアノ？<br>それともアコースティック？</h1>
                 <div class="h-1 w-20 bg-blue-600 mx-auto mb-4"></div>
@@ -162,7 +299,7 @@
             <h2 class="text-2xl md:text-3xl font-bold mb-2">最初にお伝えしたいこと</h2>
             <div class="title-accent"></div>
             <div class="flex flex-col md:flex-row gap-6 items-center">
-                <div class="flex-1">
+                <div class="flex-1 min-w-0">
                     <h3 class="text-lg md:text-xl font-bold text-blue-700 mb-3">みんな同じことで悩んでいます</h3>
                     <ul class="space-y-2 text-base md:text-lg text-gray-700">
                         <li>「電子ピアノとアコースティック、どっちがいいの？」</li>
@@ -174,10 +311,7 @@
                     </ul>
                 </div>
                 <div class="w-full md:w-1/3 image-placeholder h-48">
-                    <img src="images/44D1A5B7-D0B9-4425-9012-EDFC148076F3.jpeg"
-       alt="ピアノを考える親子"
-       class="w-full h-full object-cover rounded-lg">
-                    
+                    <img src="images/44D1A5B7-D0B9-4425-9012-EDFC148076F3.jpeg" alt="ピアノを考える親子" class="w-full h-full object-cover rounded-lg">
                 </div>
             </div>
             <div class="slide-number">2 / 19</div>
@@ -203,17 +337,15 @@
         <div class="slide-container" id="slide-4">
             <h2 class="text-2xl md:text-3xl font-bold mb-2">ピアノ 400年の歴史</h2>
             <div class="title-accent"></div>
-            <div class="flex gap-6 items-start">
-                <div class="flex-1 space-y-2 text-base md:text-lg">
+            <div class="flex flex-col md:flex-row gap-6 items-start">
+                <div class="flex-1 space-y-2 text-base md:text-lg min-w-0">
                     <p><strong>誕生：</strong> 約400年前（イタリア）</p>
                     <p><strong>革新：</strong> <span class="bg-yellow-200">「弦をハンマーで叩く」</span></p>
                     <p><strong>可能になったこと：</strong> 強弱による繊細な表現</p>
                     <p class="text-blue-700 font-bold mt-2">これがピアノ最大の特徴です。</p>
                 </div>
-                <div class="w-1/3 image-placeholder h-40">
-                    <img src="images/503HW55527.png"
-       alt="ピアノを考える親子"
-       class="w-full h-full object-cover rounded-lg">
+                <div class="w-full md:w-1/3 image-placeholder h-40">
+                    <img src="images/503HW55527.png" alt="ピアノのイメージ" class="w-full h-full object-cover rounded-lg">
                 </div>
             </div>
             <div class="slide-number">4 / 19</div>
@@ -223,17 +355,14 @@
         <div class="slide-container" id="slide-5">
             <h2 class="text-2xl md:text-3xl font-bold mb-2">グランドピアノとアップライト</h2>
             <div class="title-accent"></div>
-            <div class="flex gap-4 items-center">
-                <div class="flex-1 space-y-3 text-sm md:text-base">
+            <div class="flex flex-col md:flex-row gap-4 items-center">
+                <div class="flex-1 space-y-3 text-sm md:text-base min-w-0">
                     <p><strong>初期：</strong> すべてグランドピアノ型</p>
                     <p><strong>解決策：</strong> アップライトの誕生<br><span class="text-xs text-gray-500">（グランドを「縦」にした構造）</span></p>
                     <p class="text-red-600 font-bold">ポイント：便利になると、必ず何かが失われます。</p>
                 </div>
-                <div class="flex-1 image-placeholder h-48">
-                    <img src="images/U1E002.jpg"
-       alt="ピアノを考える親子"
-       class="w-full h-full object-cover rounded-lg">
-                    
+                <div class="w-full md:flex-1 image-placeholder h-48">
+                    <img src="images/U1E002.jpg" alt="アップライトピアノ" class="w-full h-full object-cover rounded-lg">
                 </div>
             </div>
             <div class="slide-number">5 / 19</div>
@@ -243,37 +372,36 @@
         <div class="slide-container" id="slide-6">
             <h2 class="text-2xl md:text-3xl font-bold mb-2">アップライトで「失われたもの」</h2>
             <div class="title-accent"></div>
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>特徴</th>
-                        <th>グランドピアノ</th>
-                        <th>アップライト</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td class="font-bold">連打能力</td>
-                        <td class="text-blue-600 font-bold">1秒間に16回</td>
-                        <td>1秒間に7〜8回</td>
-                    </tr>
-                    <tr>
-                        <td class="font-bold">音の方向</td>
-                        <td>奏者の前（開放）</td>
-                        <td>壁側（閉鎖）</td>
-                    </tr>
-                    <tr>
-                        <td class="font-bold">表現力</td>
-                        <td class="text-blue-600 font-bold">最大限</td>
-                        <td>制限あり</td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="comparison-table-wrap">
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>特徴</th>
+                            <th>グランドピアノ</th>
+                            <th>アップライト</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="font-bold">連打能力</td>
+                            <td class="text-blue-600 font-bold">1秒間に16回</td>
+                            <td>1秒間に7〜8回</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold">音の方向</td>
+                            <td>奏者の前（開放）</td>
+                            <td>壁側（閉鎖）</td>
+                        </tr>
+                        <tr>
+                            <td class="font-bold">表現力</td>
+                            <td class="text-blue-600 font-bold">最大限</td>
+                            <td>制限あり</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
             <div class="image-placeholder h-24 mt-4">
-                <img src="images/U1E002.jpg"
-       alt="ピアノを考える親子"
-       class="w-full h-full object-cover rounded-lg">
-                
+                <img src="images/U1E002.jpg" alt="アップライトピアノ" class="w-full h-full object-cover rounded-lg">
             </div>
             <div class="slide-number">6 / 19</div>
         </div>
@@ -290,10 +418,7 @@
                 <div class="bg-gray-50 p-3 rounded border text-center font-bold">4. メンテナンスフリー</div>
             </div>
             <div class="image-placeholder h-32 mt-4">
-                <img src="images/IMG_1376.JPG"
-       alt="ピアノを考える親子"
-       class="w-full h-full object-cover rounded-lg">
-                
+                <img src="images/IMG_1376.JPG" alt="電子ピアノ" class="w-full h-full object-cover rounded-lg">
             </div>
             <div class="slide-number">7 / 19</div>
         </div>
@@ -302,33 +427,32 @@
         <div class="slide-container" id="slide-8">
             <h2 class="text-2xl md:text-3xl font-bold mb-2">まとめ：電子ピアノの立ち位置</h2>
             <div class="title-accent"></div>
-            <table class="comparison-table mb-4">
-                <tr class="bg-gray-50 font-bold">
-                    <td>項目</td>
-                    <td>アコースティック</td>
-                    <td>電子ピアノ</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">価格</td>
-                    <td>高い</td>
-                    <td class="highlight">安い</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">音量</td>
-                    <td>大きい</td>
-                    <td class="highlight">ヘッドホン可</td>
-                </tr>
-            </table>
-            <div class="flex justify-center items-center gap-6 mt-4">
+            <div class="comparison-table-wrap mb-4">
+                <table class="comparison-table">
+                    <tr class="bg-gray-50 font-bold">
+                        <td>項目</td>
+                        <td>アコースティック</td>
+                        <td>電子ピアノ</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">価格</td>
+                        <td>高い</td>
+                        <td class="highlight">安い</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">音量</td>
+                        <td>大きい</td>
+                        <td class="highlight">ヘッドホン可</td>
+                    </tr>
+                </table>
+            </div>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-6 mt-4">
                 <div class="text-center font-bold">
                     <p class="text-gray-500 text-sm">普及率</p>
                     <p class="text-3xl text-blue-600">約8割</p>
                 </div>
-                <div class="w-1/2 image-placeholder h-24">
-                    <img src="images/IMG_1376.JPG"
-       alt="ピアノを考える親子"
-       class="w-full h-full object-cover rounded-lg">
-                    
+                <div class="w-full md:w-1/2 image-placeholder h-24">
+                    <img src="images/IMG_1376.JPG" alt="電子ピアノ" class="w-full h-full object-cover rounded-lg">
                 </div>
             </div>
             <div class="slide-number">8 / 19</div>
@@ -340,7 +464,7 @@
             <div class="title-accent"></div>
             <div class="bg-blue-50 p-4 rounded-lg mb-4 text-center">
                 <p class="font-bold">絵の具の色数に例えると：</p>
-                <div class="flex justify-around items-end mt-4">
+                <div class="flex justify-around items-end mt-4 gap-2">
                     <div class="w-12 h-12 bg-blue-300 rounded border border-blue-400"></div>
                     <div class="w-12 h-20 bg-blue-500 rounded border border-blue-600"></div>
                     <div class="w-12 h-32 bg-blue-700 rounded border border-blue-800"></div>
@@ -357,19 +481,16 @@
         <div class="slide-container" id="slide-10">
             <h2 class="text-2xl md:text-3xl font-bold mb-2">重要：買い替えについて</h2>
             <div class="title-accent"></div>
-            <div class="flex gap-6 items-center">
-                <div class="flex-1 space-y-4">
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <div class="flex-1 space-y-4 min-w-0">
                     <h3 class="text-lg font-bold text-red-600">「上手になってから」の落とし穴</h3>
                     <p class="text-sm">本物の響きを知ることで「耳」が育ち、それが一生の財産になります。</p>
                     <div class="bg-gray-800 text-white p-3 rounded text-sm text-center">
                         最初から本物に触れるメリットは計り知れません。
                     </div>
                 </div>
-                <div class="w-1/3 image-placeholder h-48">
-                    <img src="images/DSCF0044.JPG"
-       alt="ピアノを考える親子"
-       class="w-full h-full object-cover rounded-lg">
-                    
+                <div class="w-full md:w-1/3 image-placeholder h-48">
+                    <img src="images/DSCF0044.JPG" alt="アコースティックピアノ" class="w-full h-full object-cover rounded-lg">
                 </div>
             </div>
             <div class="slide-number">10 / 19</div>
@@ -380,9 +501,7 @@
             <h2 class="text-2xl md:text-3xl font-bold mb-2">電子ピアノが「ダメ」ではない</h2>
             <div class="title-accent"></div>
             <div class="image-placeholder h-32">
-               <img src="images/IMG_1376.JPG"
-       alt="ピアノを考える親子"
-       class="w-full h-full object-cover rounded-lg"> 
+                <img src="images/IMG_1376.JPG" alt="電子ピアノ" class="w-full h-full object-cover rounded-lg">
             </div>
             <p class="text-base md:text-lg text-center font-bold text-gray-700 mt-4">
                 「音感」「リズム」「譜読み」<br>
@@ -394,8 +513,8 @@
         <!-- Slide 12 -->
         <div class="slide-container" id="slide-12">
             <div class="text-center">
-                <div class="image-placeholder w-32 h-32 mx-auto rounded-full mb-6">
-                    [Image of Question Mark Icon]
+                <div class="image-placeholder w-28 h-28 md:w-32 md:h-32 mx-auto rounded-full mb-6">
+                    <img src="images/IMG_1376.JPG" alt="ピアノのイメージ" class="w-full h-full object-cover rounded-full">
                 </div>
                 <p class="text-2xl md:text-3xl font-bold text-blue-700 mb-6">「どこまでの音楽体験を望むか」</p>
                 <p class="text-sm md:text-base text-gray-500">判断の基準は、ご家庭が描く「理想の姿」にあります。</p>
@@ -407,14 +526,14 @@
         <div class="slide-container" id="slide-13">
             <h2 class="text-2xl md:text-3xl font-bold mb-2">電子ピアノが向いている家庭</h2>
             <div class="title-accent"></div>
-            <div class="flex gap-6">
-                <div class="flex-1 space-y-3 text-base">
+            <div class="flex flex-col md:flex-row gap-6">
+                <div class="flex-1 space-y-3 text-base min-w-0">
                     <p class="flex items-center gap-3"><span class="text-green-500">✔</span> 音の心配（ヘッドホン必須）</p>
                     <p class="flex items-center gap-3"><span class="text-green-500">✔</span> 予算をスマートに抑えたい</p>
                     <p class="flex items-center gap-3"><span class="text-green-500">✔</span> 多機能（録音など）を楽しみたい</p>
                 </div>
-                <div class="w-1/3 image-placeholder h-40">
-                    
+                <div class="w-full md:w-1/3 image-placeholder h-40">
+                    <img src="images/004.jpg" alt="電子ピアノが向いている家庭" class="w-full h-full object-cover rounded-lg">
                 </div>
             </div>
             <div class="slide-number">13 / 19</div>
@@ -424,14 +543,14 @@
         <div class="slide-container" id="slide-14">
             <h2 class="text-2xl md:text-3xl font-bold mb-2 text-blue-800">アコースティックが向いている家庭</h2>
             <div class="title-accent bg-blue-800"></div>
-            <div class="flex gap-6">
-                <div class="flex-1 space-y-3 text-base">
+            <div class="flex flex-col md:flex-row gap-6">
+                <div class="flex-1 space-y-3 text-base min-w-0">
                     <p class="flex items-center gap-3"><span class="text-blue-500">✔</span> 本格的な音色を体験させたい</p>
                     <p class="flex items-center gap-3"><span class="text-blue-500">✔</span> 長期的な資産として考えたい</p>
                     <p class="flex items-center gap-3"><span class="text-blue-500">✔</span> 芸術的な感性を育てたい</p>
                 </div>
-                <div class="w-1/3 image-placeholder h-40">
-                    
+                <div class="w-full md:w-1/3 image-placeholder h-40">
+                    <img src="images/DMC-FX0157115.JPG" alt="アコースティックピアノが向いている家庭" class="w-full h-full object-cover rounded-lg">
                 </div>
             </div>
             <div class="slide-number">14 / 19</div>
@@ -441,11 +560,11 @@
         <div class="slide-container" id="slide-15">
             <h2 class="text-2xl md:text-3xl font-bold mb-2">最も簡単な決め方</h2>
             <div class="title-accent"></div>
-            <div class="flex gap-6 items-center">
-                <div class="w-1/3 image-placeholder h-48">
-                    [Image of Teacher and Pupil]
+            <div class="flex flex-col md:flex-row gap-6 items-center">
+                <div class="w-full md:w-1/3 image-placeholder h-48">
+                    <img src="images/tama007.JPG" alt="先生に相談するイメージ" class="w-full h-full object-cover rounded-lg">
                 </div>
-                <div class="flex-1">
+                <div class="flex-1 min-w-0">
                     <h3 class="text-xl font-bold text-blue-700 mb-4">プロ（先生）に相談する</h3>
                     <p class="text-sm">お子さんの将来性を一番近くで見ているのは先生です。予算を含めて率直に話してみましょう。</p>
                 </div>
@@ -457,8 +576,8 @@
         <div class="slide-container" id="slide-16">
             <h2 class="text-2xl md:text-3xl font-bold mb-2 text-center">知っておいてほしい現実</h2>
             <div class="title-accent mx-auto"></div>
-            <div class="image-placeholder h-32 w-2/3 mx-auto">
-                
+            <div class="image-placeholder h-32 w-full md:w-2/3 mx-auto">
+                <img src="images/prm-26_dl.jpg" alt="ピアノのある暮らし" class="w-full h-full object-cover rounded-lg">
             </div>
             <p class="text-sm md:text-base text-center mt-4">
                 ピアノは長く寄り添うものです。<br>
@@ -470,7 +589,7 @@
         <!-- Slide 17 -->
         <div class="slide-container" id="slide-17">
             <h2 class="text-2xl md:text-3xl font-bold mb-6 text-center">最後に考えてみてください</h2>
-            <div class="grid grid-cols-2 gap-4">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div class="bg-blue-50 p-6 rounded-lg border-t-4 border-blue-500 text-center">
                     <h4 class="font-bold text-blue-700 mb-2">「楽しみ」を増やす？</h4>
                 </div>
@@ -508,25 +627,20 @@
             <div class="text-center">
                 <h2 class="text-3xl md:text-4xl font-bold mb-6 text-gray-800">10秒で判断できる<br>ピアノえらび診断ゲーム</h2>
                 <div class="h-1 w-20 bg-blue-600 mx-auto mb-8"></div>
-                
+
                 <div class="mb-10">
                     <p class="text-lg text-gray-600 mb-6">
                         いくつかの質問に答えるだけで、<br>
                         あなたのご家庭にぴったりの楽器をご提案します。
                     </p>
-                    <!-- CTA Button -->
                     <a href="https://kens-pro.github.io/10mDPvsAP/" class="cta-button">
                         今すぐ診断をはじめる
                     </a>
                 </div>
 
                 <div class="image-placeholder h-24 w-full">
-                    
+                    <img src="images/IMG_1376.JPG" alt="ピアノのイメージ" class="w-full h-full object-cover rounded-lg">
                 </div>
-                
-                <p class="text-xs text-gray-400 mt-6">
-                    ※このボタンはダミーです。実際のリンク先をこちらに設定可能です。
-                </p>
             </div>
             <div class="slide-number">19 / 19</div>
         </div>
@@ -547,9 +661,8 @@
                 document.getElementById(`slide-${currentSlide}`).classList.remove('active');
                 document.getElementById(`slide-${nextSlide}`).classList.add('active');
                 currentSlide = nextSlide;
-                
+
                 updateButtons();
-                // スライド切り替え時にトップにスクロール
                 document.getElementById(`slide-${currentSlide}`).scrollTop = 0;
             }
         }
@@ -559,7 +672,6 @@
             document.getElementById('nextBtn').disabled = (currentSlide === totalSlides);
         }
 
-        // キーボード操作
         document.addEventListener('keydown', (e) => {
             if (e.key === 'ArrowRight' || e.key === ' ') {
                 changeSlide(1);
@@ -569,6 +681,33 @@
                 e.preventDefault();
             }
         });
+
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        const slidesArea = document.getElementById('slides');
+
+        slidesArea.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        slidesArea.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            handleSwipe();
+        }, { passive: true });
+
+        function handleSwipe() {
+            const diff = touchEndX - touchStartX;
+            if (Math.abs(diff) < 50) return;
+            if (diff < 0) {
+                changeSlide(1);
+            } else {
+                changeSlide(-1);
+            }
+        }
+
+        updateButtons();
     </script>
 </body>
 </html>
+```
